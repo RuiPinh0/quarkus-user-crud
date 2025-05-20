@@ -1,7 +1,7 @@
 # QUARKUS User REST API
 
 A simple CRUD-based RESTful API built with **QUARKUS** to make create, get and delete operations in a Postgres DB
-This project serve as skill a test for Stiko DX
+This project serve as skill a test for Stibo DX
 
 ---
 
