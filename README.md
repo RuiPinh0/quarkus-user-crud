@@ -1,59 +1,157 @@
-# quarkus-user-crud
+# QUARKUS User REST API
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+A simple CRUD-based RESTful API built with **QUARKUS** to make create, get and delete operations in a Postgres DB
+This project serve as skill a test for Stiko DX
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+---
 
-## Running the application in dev mode
+## Technologies Used
 
-You can run your application in dev mode that enables live coding using:
+- **Java 21** 
+- **QUARKUS framework**
+- **Docker**
+- **Postgres DB**
+- **Maven** 
 
-```shell script
-./mvnw quarkus:dev
+## Prerequisites
+
+- **Java**
+- **Maven**
+- **Docker**
+- **Git**
+
+---
+
+## Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/RuiPinh0/quarkus-user-crud.git
+cd quarkus-user-crud
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+### 2. Build the project
 
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
+```bash
+mvn package
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+All unit tests will run automatically using an H2 in-memory database.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+### 3. Start the application with Docker Compose
 
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```bash
+docker compose up --build
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+This will start both the PostgreSQL database and the Quarkus application.
 
-## Creating a native executable
+### 4. Access the API
 
-You can create a native executable using:
+The API will be available at:  
+[http://localhost:8080](http://localhost:8080)
 
-```shell script
-./mvnw package -Dnative
+---
+
+## API Endpoints
+
+| Method | Endpoint         | Description           |
+|--------|------------------|----------------------|
+| POST   | `/user`          | Create a new user    |
+| GET    | `/user/{id}`     | Get user by ID       |
+| DELETE | `/user/{id}`     | Delete user by ID    |
+
+## API POST body example 
+
+```json
+{
+  "username": "johndoe",
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "123456789",
+  "address": "123 Main St"
+}
+```
+Note that "username", "firstName", "lastName" and "email" are all mandatory fields, and "email most be unique".
+That means sending a request with any of those fields without a value (or repeated in email's case) will result in a http 400 error code.
+
+## API Curl examples 
+
+POST example 
+```bash
+curl --location 'http://localhost:8080/user/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "username": "johndoe",
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "123456789",
+  "address": "123 Main St"
+}'
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+GET example 
+```bash
+curl --location 'http://localhost:8080/user/1'
 ```
 
-You can then execute your native executable with: `./target/quarkus-user-crud-1.0.0-SNAPSHOT-runner`
+DELLETE example 
+```bash
+curl --location --request DELETE 'http://localhost:8080/user/1'
+```
+---
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+## Configuration
 
-## Related Guides
+The main configuration is in `src/main/resources/application.properties`.  
+For local development, the default profile uses PostgreSQL.  
+For tests, an H2 in-memory database is used.
 
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
-- RESTEasy Classic's REST Client Jackson ([guide](https://quarkus.io/guides/resteasy-client)): Jackson serialization support for the REST Client
+---
+
+## Running Locally
+
+To run:
+
+```bash
+mvn quarkus:dev
+```
+you can replace 'dev' for 'prod'. 
+And BE SURE you fix the DB connections in properties file before run.
+
+## Running Tests
+
+To run all tests:
+
+```bash
+mvn test
+```
+or
+
+```bash
+mvn quarkus:test
+```
+
+---
+
+## OpenAPI and Swagger UI
+
+- OpenAPI specification is available at: [http://localhost:8080/q/openapi](http://localhost:8080/q/openapi)
+- Swagger UI is available at: [http://localhost:8080/q/swagger-ui](http://localhost:8080/q/swagger-ui)
+
+---
+
+## Notes
+
+- The project uses DTOs and validation for input data.
+- All endpoints return appropriate HTTP status codes for errors (e.g., 400 for bad requests, 404 for not found).
+- The code follows SOLID principles and is structured for maintainability and extensibility.
+
+---
+
+## License
+
+This project is for demonstration and skill assessment purposes.

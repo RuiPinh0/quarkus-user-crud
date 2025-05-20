@@ -3,6 +3,10 @@ package org.stibo.mapper;
 import org.stibo.dto.UserDTO;
 import org.stibo.entity.User;
 
+/**
+ * UserMapper is a utility class that provides methods to convert between UserDTO and User entity.
+ * It is used to map data between the DTO and entity layers.
+ */
 public class UserMapper {
     public static User newUserToEntity(UserDTO userDTO) {
         if (userDTO == null) {

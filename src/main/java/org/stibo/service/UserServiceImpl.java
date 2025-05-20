@@ -1,5 +1,6 @@
 package org.stibo.service;
 
+import org.jboss.logging.Logger;
 import org.stibo.dto.UserDTO;
 import org.stibo.entity.User;
 import org.stibo.mapper.UserMapper;
@@ -11,8 +12,15 @@ import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.ClientErrorException;
 import jakarta.ws.rs.NotFoundException;
 
+/**
+ * UserServiceImpl is the implementation of the UserService interface.
+ * It provides methods to create, retrieve, and delete users.
+ * The service uses the UserRepository to perform the operations on the database.
+ */
 @ApplicationScoped
 public class UserServiceImpl implements UserService {
+
+    private static final Logger log = Logger.getLogger(UserServiceImpl.class); 
 
     private final String USER_NOT_FOUND = "User not found";
     private final String USER_ID_INVALID = "User ID cannot be null and must be a number higger than 1";
@@ -21,6 +29,13 @@ public class UserServiceImpl implements UserService {
     @Inject
     UserRepository userRepository;
  
+    /**
+     * Retrieves a user by its ID.
+     * @param id the ID of the user to retrieve
+     * @return the User object if found
+     * @throws BadRequestException if the user ID is invalid
+     * @throws NotFoundException if the user is not found
+     */
     @Override
     public User getUserById(Long id) throws ClientErrorException {
         User user;
@@ -35,6 +50,12 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * Creates a new user from the provided UserDTO.
+     * @param userDTO the UserDTO object containing user data
+     * @return the ID of the created user
+     * @throws ClientErrorException if the userDTO is null or invalid
+     */
     @Override
     public Long createUser(UserDTO userDTO) throws ClientErrorException {
         if(userDTO == null) {
@@ -47,6 +68,12 @@ public class UserServiceImpl implements UserService {
         return user.getId();
     }
 
+    /**
+     * Deletes a user by its ID.
+     * @param id the ID of the user to delete
+     * @return true if the user was deleted, false otherwise
+     * @throws ClientErrorException if the ID is invalid
+     */
     @Override
     public Boolean deleteUser(Long id) throws ClientErrorException {
         if(id == null || id <= 0) {

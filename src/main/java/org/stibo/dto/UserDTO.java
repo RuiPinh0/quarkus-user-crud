@@ -4,7 +4,10 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-
+/**
+ * UserDTO is a Data Transfer Object (DTO) for the User entity.
+ * It contains fields that represent user data and validation constraints.
+ */
 @RegisterForReflection
 public class UserDTO {
     @NotBlank(message = "Username is required")

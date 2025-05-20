@@ -5,8 +5,10 @@ import org.stibo.entity.User;
 
 import jakarta.ws.rs.ClientErrorException;
 
-// I think that this interface is overengeneered and not needed for this complexity and special case
-//but in order of adhering strictly to the Dependency Inversion Principle I will keep it
+/**
+ * UserService is an interface that defines the contract for user-related operations.
+ * It provides methods to create, retrieve, and delete users.
+ */
 public interface UserService {
     User getUserById(Long id) throws ClientErrorException;   
     Long createUser(UserDTO user) throws ClientErrorException;

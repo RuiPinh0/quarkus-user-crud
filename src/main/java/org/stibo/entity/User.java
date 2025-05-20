@@ -3,6 +3,11 @@ package org.stibo.entity;
 import java.time.Instant;
 import jakarta.persistence.*;
 
+/**
+ * User is an entity class that represents a user in the system.
+ * It contains fields for user details such as username, first name, last name, phone, address, status, email,
+ * and timestamps for creation and update.
+ */
 @Entity
 @Table(name = "users")
 public class User {
